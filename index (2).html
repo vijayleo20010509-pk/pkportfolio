@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Pravin Kumar — UI & UX Designer</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --yellow: #ffd600;
+    --black: #0a0a0a;
+    --white: #ffffff;
+
+    /* Page background colors */
+    --bg-home:    #0a0a0a;
+    --bg-about:   #ff2d8a;
+    --bg-service: #0a0a0a;
+    --bg-contact: #ff2d8a;
+  }
+
+  html, body { height: 100%; overflow: hidden; }
+
+  body {
+    font-family: 'Times New Roman', Times, serif;
+    color: var(--white);
+    transition: background 0.55s cubic-bezier(.77,0,.18,1);
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 13px 48px;
+    background: rgba(0,0,0,0.18);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1.5px solid rgba(255,255,255,0.25);
+    transition: background 0.4s;
+  }
+
+  .logo {
+    display: flex; align-items: center; gap: 11px;
+    font-weight: 900; font-size: 1.15rem;
+    text-decoration: none; color: var(--white);
+    cursor: pointer;
+  }
+
+  .logo-circle {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: var(--black);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--yellow);
+    font-weight: 900; font-size: 0.82rem;
+    border: 2px solid var(--yellow);
+    flex-shrink: 0;
+    box-shadow: 0 0 12px rgba(255,214,0,0.4);
+  }
+
+  .nav-links { display: flex; gap: 38px; list-style: none; }
+
+  .nav-links a {
+    color: rgba(255,255,255,0.85);
+    text-decoration: none;
+    font-weight: 700; font-size: 1rem;
+    letter-spacing: 0.06em;
+    padding-bottom: 3px;
+    border-bottom: 2.5px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+    cursor: pointer;
+  }
+
+  .nav-links a:hover { color: var(--white); }
+  .nav-links a.active {
+    color: var(--white);
+    border-bottom-color: var(--white);
+  }
+
+  /* ── PAGE WRAPPER ── */
+  .pages {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    overflow: hidden;
+  }
+
+  /* ── EACH PAGE ── */
+  .page {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    padding: 90px 50px 50px;
+    opacity: 0;
+    transform: translateY(30px) scale(0.98);
+    pointer-events: none;
+    transition: opacity 0.5s cubic-bezier(.77,0,.18,1),
+                transform 0.5s cubic-bezier(.77,0,.18,1);
+    overflow-y: auto;
+  }
+
+  .page.active {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: all;
+  }
+
+  /* ── HOME PAGE ── */
+  #home { align-items: flex-start; padding-left: 80px; }
+
+  .home-tag {
+    display: inline-block;
+    background: rgba(255,45,138,0.15);
+    border: 1.5px solid #ff2d8a;
+    color: var(--white);
+    font-size: 0.78rem; font-weight: 700;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    padding: 6px 18px; border-radius: 100px;
+    margin-bottom: 24px;
+  }
+
+  .home-name {
+    font-size: clamp(2.2rem, 5vw, 4rem);
+    font-weight: 900; line-height: 1.1;
+    color: #ff2d8a; margin-bottom: 6px;
+  }
+
+  .home-role {
+    font-size: clamp(1.7rem, 4vw, 3.2rem);
+    font-weight: 900; color: var(--white);
+    margin-bottom: 28px;
+  }
+
+  .home-desc {
+    font-size: 1rem; color: rgba(255,255,255,0.75);
+    line-height: 1.7; max-width: 420px;
+    margin-bottom: 48px;
+  }
+
+  .socials { display: flex; gap: 14px; align-items: center; }
+
+  .social-icon {
+    width: 52px; height: 52px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem; text-decoration: none; cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: none; flex-shrink: 0;
+  }
+  .social-icon:hover {
+    transform: scale(1.12);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+  }
+  .s-wa { background: #25d366; }
+  .s-ig { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%); }
+  .s-fb { background: #1877f2; }
+  .s-x  { background: #000; color: #fff; font-weight: 900; font-size: 1.1rem; font-family: Arial, sans-serif; }
+
+  /* ── ABOUT PAGE ── */
+  #about { background: transparent; }
+
+  .section-heading {
+    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+    font-weight: 900; text-align: center;
+    margin-bottom: 36px; color: var(--white);
+    text-transform: uppercase; letter-spacing: 0.06em;
+  }
+
+  .about-card {
+    background: rgba(0,0,0,0.55);
+    backdrop-filter: blur(8px);
+    border: 2px solid rgba(255,45,138,0.5);
+    border-radius: 20px;
+    padding: 44px 50px;
+    max-width: 860px; width: 100%;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+  }
+
+  .about-body {
+    font-size: 1.06rem; font-weight: 700;
+    color: var(--white); line-height: 1.75;
+    margin-bottom: 24px;
+  }
+
+  .about-what {
+    font-size: 1rem; font-weight: 900;
+    color: var(--yellow); margin-bottom: 14px;
+  }
+
+  .about-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .about-list li {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 1rem; font-weight: 700; color: var(--yellow);
+  }
+  .about-list li::before {
+    content: '◆'; color: var(--yellow); font-size: 0.7rem;
+  }
+
+  /* ── SERVICE PAGE ── */
+  #service { background: transparent; }
+
+  .service-grid {
+    display: flex; gap: 26px; flex-wrap: wrap;
+    justify-content: center; max-width: 1050px; width: 100%;
+  }
+
+  .service-card {
+    width: 280px; border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: default;
+  }
+  .service-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 18px 50px rgba(0,0,0,0.35);
+  }
+
+  .service-img {
+    width: 100%; height: 170px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 4rem;
+  }
+
+  .si-web { background: linear-gradient(135deg, #0d0033, #0a1a60); }
+  .si-ui  { background: linear-gradient(135deg, #0a1a60, #0d0033); }
+  .si-dm  { background: linear-gradient(135deg, #0d0033, #091c44); }
+
+  .service-card-name {
+    background: #1565c0;
+    color: var(--white);
+    font-weight: 900; font-size: 0.9rem;
+    padding: 11px 16px;
+    text-transform: uppercase; letter-spacing: 0.06em;
+  }
+
+  .service-card-desc {
+    background: #ff2d8a;
+    color: #fff;
+    font-weight: 700; font-size: 0.87rem;
+    padding: 14px 16px; line-height: 1.55;
+  }
+
+  /* ── CONTACT PAGE ── */
+  #contact { background: transparent; }
+
+  .contact-card {
+    background: rgba(0,0,0,0.55);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255,45,138,0.6);
+    border-radius: 20px;
+    padding: 44px 56px;
+    max-width: 760px; width: 100%;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+  }
+
+  .contact-row {
+    display: flex; gap: 12px;
+    align-items: flex-start;
+    margin-bottom: 18px;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    padding-bottom: 18px;
+  }
+  .contact-row:last-child { margin-bottom: 0; border-bottom: none; padding-bottom: 0; }
+
+  .contact-key {
+    font-weight: 900; font-size: 1rem;
+    color: var(--yellow); min-width: 140px; flex-shrink: 0;
+  }
+
+  .contact-val {
+    font-weight: 700; font-size: 1rem; color: var(--white);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 720px) {
+    nav { padding: 12px 18px; }
+    .nav-links { gap: 14px; }
+    .nav-links a { font-size: 0.82rem; }
+    .page { padding: 80px 20px 30px; }
+    #home { padding-left: 24px; align-items: flex-start; }
+    .about-card { padding: 26px 20px; }
+    .contact-card { padding: 26px 18px; }
+    .service-card { width: 100%; max-width: 320px; }
+    .contact-key { min-width: 100px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo" onclick="showPage('home')">
+    <div class="logo-circle">PK</div>
+    Portfolio
+  </div>
+  <ul class="nav-links">
+    <li><a onclick="showPage('home')"   id="nav-home">HOME</a></li>
+    <li><a onclick="showPage('about')"  id="nav-about">ABOUT</a></li>
+    <li><a onclick="showPage('service')" id="nav-service">SERVICE</a></li>
+    <li><a onclick="showPage('contact')" id="nav-contact">CONTACT</a></li>
+  </ul>
+</nav>
+
+<div class="pages">
+
+  <!-- HOME -->
+  <div class="page active" id="home">
+    <div class="home-tag">✦ Available for Projects</div>
+    <div class="home-name">I'm Pravin Kumar</div>
+    <div class="home-role">UI &amp; UX Designer</div>
+    <p class="home-desc">
+      I'm a passionate UI/UX Designer who focuses on
+      designing user-centered, visually appealing, and
+      intuitive digital products.
+    </p>
+    <div class="socials">
+      <a class="social-icon s-wa" href="#" title="WhatsApp">
+        <svg width="28" height="28" viewBox="0 0 32 32" fill="white"><path d="M16 3C8.82 3 3 8.82 3 16c0 2.54.72 4.9 1.97 6.91L3 29l6.27-1.94A13 13 0 0 0 16 29c7.18 0 13-5.82 13-13S23.18 3 16 3zm6.4 18.05c-.27.75-1.59 1.44-2.19 1.5-.56.06-1.1.26-3.72-.78-3.13-1.24-5.13-4.43-5.28-4.63-.15-.2-1.23-1.63-1.23-3.11s.78-2.2 1.06-2.5c.28-.3.6-.37.8-.37l.57.01c.18 0 .43-.07.67.51.25.6.85 2.08.92 2.23.08.15.13.33.03.53-.1.2-.15.33-.3.5-.14.18-.3.39-.43.52-.14.14-.29.29-.12.58.17.28.74 1.22 1.59 1.97 1.09.97 2.01 1.27 2.3 1.41.28.14.44.12.6-.07.17-.2.72-.84.91-1.13.19-.29.38-.24.64-.14.27.1 1.7.8 1.99.95.29.14.48.21.55.33.07.12.07.68-.2 1.43z"/></svg>
+      </a>
+      <a class="social-icon s-ig" href="#" title="Instagram">
+        <svg width="28" height="28" viewBox="0 0 32 32" fill="white"><path d="M16 3c-3.54 0-3.99.01-5.38.08C9.24 3.14 8.3 3.36 7.5 3.68A6.54 6.54 0 0 0 5.13 5.13 6.54 6.54 0 0 0 3.68 7.5C3.36 8.3 3.14 9.24 3.08 10.62 3.01 12.01 3 12.46 3 16s.01 3.99.08 5.38c.06 1.38.28 2.32.6 3.12a6.54 6.54 0 0 0 1.45 2.37 6.54 6.54 0 0 0 2.37 1.45c.8.32 1.74.54 3.12.6C12.01 28.99 12.46 29 16 29s3.99-.01 5.38-.08c1.38-.06 2.32-.28 3.12-.6a6.54 6.54 0 0 0 2.37-1.45 6.54 6.54 0 0 0 1.45-2.37c.32-.8.54-1.74.6-3.12C28.99 19.99 29 19.54 29 16s-.01-3.99-.08-5.38c-.06-1.38-.28-2.32-.6-3.12a6.54 6.54 0 0 0-1.45-2.37A6.54 6.54 0 0 0 24.5 3.68c-.8-.32-1.74-.54-3.12-.6C19.99 3.01 19.54 3 16 3zm0 2.34c3.48 0 3.9.01 5.27.08 1.27.06 1.96.27 2.42.45.61.24 1.04.52 1.5.97.45.46.73.9.97 1.5.18.46.39 1.15.45 2.42.07 1.37.08 1.78.08 5.24s-.01 3.87-.08 5.24c-.06 1.27-.27 1.96-.45 2.42-.24.61-.52 1.04-.97 1.5-.46.45-.9.73-1.5.97-.46.18-1.15.39-2.42.45-1.37.07-1.79.08-5.27.08s-3.9-.01-5.27-.08c-1.27-.06-1.96-.27-2.42-.45a4.2 4.2 0 0 1-1.5-.97 4.2 4.2 0 0 1-.97-1.5c-.18-.46-.39-1.15-.45-2.42C5.35 19.87 5.34 19.46 5.34 16s.01-3.87.08-5.24c.06-1.27.27-1.96.45-2.42.24-.61.52-1.04.97-1.5a4.2 4.2 0 0 1 1.5-.97c.46-.18 1.15-.39 2.42-.45C12.1 5.35 12.52 5.34 16 5.34zM16 9.3a6.7 6.7 0 1 0 0 13.4A6.7 6.7 0 0 0 16 9.3zm0 2.34a4.36 4.36 0 1 1 0 8.72 4.36 4.36 0 0 1 0-8.72zm6.96-4.16a1.56 1.56 0 1 0 0 3.12 1.56 1.56 0 0 0 0-3.12z"/></svg>
+      </a>
+      <a class="social-icon s-fb" href="#" title="Facebook">
+        <svg width="28" height="28" viewBox="0 0 32 32" fill="white"><path d="M28 16C28 9.37 22.63 4 16 4S4 9.37 4 16c0 5.99 4.39 10.95 10.13 11.85v-8.38H11.1V16h3.03v-2.63c0-2.99 1.78-4.64 4.5-4.64 1.31 0 2.67.23 2.67.23v2.94h-1.5c-1.48 0-1.94.92-1.94 1.86V16h3.3l-.53 3.47h-2.77v8.38C23.61 26.95 28 22 28 16z"/></svg>
+      </a>
+      <a class="social-icon s-x" href="#" title="X">✕</a>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <div class="page" id="about">
+    <div class="section-heading">ABOUT ME</div>
+    <div class="about-card">
+      <p class="about-body">I &nbsp;focus on solving real problems through thoughtful design decisions. I pay close attention to usability, accessibility, and consistency to ensure every product feels seamless across devices.</p>
+      <div class="about-what">What I do:</div>
+      <ul class="about-list">
+        <li>User Research &amp; Personas</li>
+        <li>Wireframing &amp; Prototyping</li>
+        <li>UI Design (Web &amp; Mobile)</li>
+        <li>UX Strategy &amp; Usability Testing</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- SERVICE -->
+  <div class="page" id="service">
+    <div class="section-heading" style="color:#ff2d8a;">SERVICE</div>
+    <div class="service-grid">
+      <div class="service-card">
+        <div class="service-img si-web">💻</div>
+        <div class="service-card-name">WEB DEVELOPMENT</div>
+        <div class="service-card-desc">I build responsive and user-friendly websites using modern web technologies</div>
+      </div>
+      <div class="service-card">
+        <div class="service-img si-ui">🎨</div>
+        <div class="service-card-name">UI &amp; UX</div>
+        <div class="service-card-desc">I build responsive and user-friendly websites using modern web technologies</div>
+      </div>
+      <div class="service-card">
+        <div class="service-img si-dm">📣</div>
+        <div class="service-card-name">DIGITAL MARKETING</div>
+        <div class="service-card-desc">I build responsive and user-friendly websites using modern web technologies</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTACT -->
+  <div class="page" id="contact">
+    <div class="section-heading" style="color:#0a0a0a; text-shadow: none;">CONTACT</div>
+    <div class="contact-card">
+      <div class="contact-row">
+        <span class="contact-key">Name :</span>
+        <span class="contact-val">Pravinkumar</span>
+      </div>
+      <div class="contact-row">
+        <span class="contact-key">EmailId :</span>
+        <span class="contact-val">abcdkumar@gmail.com</span>
+      </div>
+      <div class="contact-row">
+        <span class="contact-key">contactNo :</span>
+        <span class="contact-val">9656738930</span>
+      </div>
+      <div class="contact-row">
+        <span class="contact-key">Address :</span>
+        <span class="contact-val">Dubai kuruku santhu Dubai main road Dubai</span>
+      </div>
+      <div class="contact-row">
+        <span class="contact-key">Insta Id :</span>
+        <span class="contact-val">King_of_abcd_09877</span>
+      </div>
+      <div class="contact-row">
+        <span class="contact-key">Whatsapp :</span>
+        <span class="contact-val">9600590088</span>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /pages -->
+
+<script>
+  const bgColors = {
+    home:    '#0a0a0a',
+    about:   '#ff2d8a',
+    service: '#0a0a0a',
+    contact: '#ff2d8a',
+  };
+
+  const navColors = {
+    home:    'rgba(0,0,0,0.75)',
+    about:   'rgba(180,0,80,0.65)',
+    service: 'rgba(0,0,0,0.75)',
+    contact: 'rgba(180,0,80,0.65)',
+  };
+
+  function showPage(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    document.getElementById('nav-' + id).classList.add('active');
+    document.body.style.background = bgColors[id];
+    document.querySelector('nav').style.background = navColors[id];
+  }
+
+  // Init
+  document.body.style.background = bgColors['home'];
+  document.querySelector('nav').style.background = navColors['home'];
+  document.getElementById('nav-home').classList.add('active');
+</script>
+</body>
+</html>
